@@ -19,7 +19,7 @@ env:
 
 matrix:
   include:
-    - php: 5.3
+    - php: 5.3.29
       dist: precise
 
 #  exclude:
@@ -30,8 +30,8 @@ matrix:
 #      env: PREFER_LOWEST=--prefer-lowest
 
 before_install:
-  - echo ${TRAVIS_PHP_VERSION}
-  - composer config platform.php ${TRAVIS_PHP_VERSION}
+  - composer config platform.php "${TRAVIS_PHP_VERSION}"
+  - composer config platform.php
 
 install:
   - composer update ${PREFER_LOWEST}
