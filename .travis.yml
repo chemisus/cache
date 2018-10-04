@@ -30,6 +30,7 @@ matrix:
 #      env: PREFER_LOWEST=--prefer-lowest
 
 before_install:
+  - echo ${TRAVIS_PHP_VERSION}
   - composer config platform.php ${TRAVIS_PHP_VERSION}
 
 install:
