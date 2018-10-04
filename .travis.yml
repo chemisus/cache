@@ -12,13 +12,26 @@ php:
 notifications:
   email: false
 
+env:
+  - PREFER_LOWEST=--prefer-lowest
+  - PREFER_LOWEST=
+
 matrix:
   include:
     - php: 5.3
       dist: precise
+      env:
+        - PREFER_LOWEST=--prefer-lowest
+  exclude:
+    - php: 7.2
+      env:
+        - PREFER_LOWEST=--prefer-lowest
+    - php: master
+      env:
+        - PREFER_LOWEST=--prefer-lowest
 
 install:
-  - composer update --prefer-lowest
+  - composer update ${PREFER_LOWEST}
 
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.xml
