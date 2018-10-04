@@ -1,0 +1,14 @@
+{
+    "name": "chemisus/cache",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Terrence Howard",
+            "email": "chemisus@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^4"
+    }
+}
