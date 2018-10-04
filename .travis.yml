@@ -21,24 +21,13 @@ matrix:
   include:
     - php: 5.3
       dist: precise
-      env:
-        - PREFER_LOWEST=--prefer-lowest
+
   exclude:
-    - php: 5.4
-      env:
-        - PREFER_LOWEST=
-    - php: 5.5
-      env:
-        - PREFER_LOWEST=
-    - php: 5.6
-      env:
-        - PREFER_LOWEST=
     - php: 7.2
-      env:
-        - PREFER_LOWEST=--prefer-lowest
+      env: PREFER_LOWEST=--prefer-lowest
+
     - php: master
-      env:
-        - PREFER_LOWEST=--prefer-lowest
+      env: PREFER_LOWEST=--prefer-lowest
 
 install:
   - composer update ${PREFER_LOWEST}
