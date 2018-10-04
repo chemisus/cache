@@ -52,7 +52,7 @@ abstract class StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testPut
+     * @dataProvider data
      * @param Storage $storage
      * @return Storage
      */
@@ -65,7 +65,7 @@ abstract class StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testGet
+     * @dataProvider data
      * @param Storage $storage
      * @return Storage
      */
