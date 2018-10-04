@@ -7,6 +7,11 @@
             "email": "chemisus@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Chemisus\\": "src/main"
+        }
+    },
     "require": {},
     "require-dev": {
         "phpunit/phpunit": "^4"
