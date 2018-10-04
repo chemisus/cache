@@ -29,51 +29,14 @@ abstract class StorageTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data
      * @param Storage $storage
-     * @return Storage
      */
-    public function testFactory(Storage $storage)
+    public function testStorage(Storage $storage)
     {
-        $actual = $storage->get($this->keys);
-        $this->assertEmpty($actual, "Storage should be empty to begin with.");
-        return $storage;
-    }
-
-    /**
-     * @dataProvider data
-     * @param Storage $storage
-     * @return Storage
-     */
-    public function testPut(Storage $storage)
-    {
+        self::assertEmpty($storage->get($this->keys), "Storage should be empty to begin with.");
         $storage->put($this->entries);
-        $actual = $storage->get($this->keys);
-        self::assertNotEmpty($actual, "Storage should store and return entries.");
-        return $storage;
-    }
-
-    /**
-     * @dataProvider data
-     * @param Storage $storage
-     * @return Storage
-     */
-    public function testGet(Storage $storage)
-    {
-        $expect = $this->entries;
-        $actual = $storage->get($this->keys);
-        self::assertEquals($expect, $actual, "Storage should return entries.");
-        return $storage;
-    }
-
-    /**
-     * @dataProvider data
-     * @param Storage $storage
-     * @return Storage
-     */
-    public function testDelete(Storage $storage)
-    {
+        self::assertNotEmpty($storage->get($this->keys), "Storage should store and return entries.");
+        self::assertEquals($this->entries, $storage->get($this->keys), "Storage should return entries.");
         $storage->delete($this->keys);
-        $actual = $storage->get($this->keys);
-        self::assertEmpty($actual, "Storage should delete entries by key.");
-        return $storage;
+        self::assertEmpty($storage->get($this->keys), "Storage should delete entries by key.");
     }
 }
