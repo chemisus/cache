@@ -41,33 +41,39 @@ abstract class StorageTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data
      * @param Storage $storage
+     * @return Storage
      */
     public function testPut(Storage $storage)
     {
         $storage->put($this->entries);
         $actual = $storage->get($this->keys);
         self::assertNotEmpty($actual, "Storage should store and return entries.");
+        return $storage;
     }
 
     /**
      * @depends testPut
      * @param Storage $storage
+     * @return Storage
      */
     public function testGet(Storage $storage)
     {
         $expect = $this->entries;
         $actual = $storage->get($this->keys);
         self::assertEquals($expect, $actual, "Storage should return entries.");
+        return $storage;
     }
 
     /**
      * @depends testGet
      * @param Storage $storage
+     * @return Storage
      */
     public function testDelete(Storage $storage)
     {
         $storage->delete($this->keys);
         $actual = $storage->get($this->keys);
         self::assertEmpty($actual, "Storage should delete entries by key.");
+        return $storage;
     }
 }
