@@ -21,13 +21,13 @@ matrix:
   include:
     - php: 5.3.29
       dist: precise
-
-  exclude:
-    - php: 7.2
-      env: PREFER_LOWEST=--prefer-lowest
-
-    - php: master
-      env: PREFER_LOWEST=--prefer-lowest
+#
+#  exclude:
+#    - php: 7.2
+#      env: PREFER_LOWEST=--prefer-lowest
+#
+#    - php: master
+#      env: PREFER_LOWEST=--prefer-lowest
 
 before_install:
   - composer config platform.php "${TRAVIS_PHP_VERSION}"
