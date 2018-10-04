@@ -19,7 +19,7 @@ env:
 
 matrix:
   include:
-    - php: 5.3.29
+    - php: 5.3
       dist: precise
 
 #  exclude:
