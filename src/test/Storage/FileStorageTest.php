@@ -2,7 +2,7 @@
 
 namespace Chemisus\Storage;
 
-class ArrayStorageTest extends StorageTest
+class FileStorageTest extends StorageTest
 {
     public function factory()
     {

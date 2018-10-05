@@ -21,11 +21,15 @@ class FileStorage implements Storage
 
     public function files($keys)
     {
+        if (!count($keys)) {
+            return array();
+        }
+
         return array_filter(
-            array_map(
+            array_combine($keys, array_map(
                 array($this, 'file'),
                 $keys
-            ),
+            )),
             'file_exists'
         );
     }
