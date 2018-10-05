@@ -14,6 +14,11 @@ class ArrayStorage implements Storage
         $this->entries = $entries;
     }
 
+    public function entries()
+    {
+        return $this->entries;
+    }
+
     public function get(array $keys)
     {
         return array_intersect_key($this->entries, array_flip($keys));
