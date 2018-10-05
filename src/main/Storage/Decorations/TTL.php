@@ -28,12 +28,13 @@ class TTL extends AbstractStorageDecoration
      * @var string
      */
     private $valueKey;
+
     /**
      * @var null
      */
     private $now;
 
-    public function __construct($ttl = self::HOUR, $expirationKey = self::EXPIRATION_KEY, $valueKey = self::VALUE_KEY, $now = null)
+    public function __construct($ttl = self::HOUR, $now = null, $expirationKey = self::EXPIRATION_KEY, $valueKey = self::VALUE_KEY)
     {
         $this->ttl = $ttl;
         $this->expirationKey = $expirationKey;
@@ -41,9 +42,24 @@ class TTL extends AbstractStorageDecoration
         $this->now = $now;
     }
 
+    public function ttl()
+    {
+        return $this->ttl;
+    }
+
+    public function expirationKey()
+    {
+        return $this->expirationKey;
+    }
+
+    public function valueKey()
+    {
+        return $this->valueKey;
+    }
+
     public function now()
     {
-        return $this->now ?: time();
+        return $this->now !== null ? $this->now : time();
     }
 
     public function valid($data)
@@ -58,7 +74,7 @@ class TTL extends AbstractStorageDecoration
 
     public function data($value)
     {
-        $expiration = time() + $this->ttl;
+        $expiration = $this->now() + $this->ttl;
 
         return array(
             $this->expirationKey => $expiration,
