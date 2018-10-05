@@ -7,21 +7,26 @@ class StorageStack implements Storage
     /**
      * @var Storage[]
      */
-    private $storages;
+    private $stack;
 
     /**
-     * @param Storage[] $storages
+     * @param Storage[] $stack
      */
-    public function __construct($storages)
+    public function __construct($stack)
     {
-        $this->storages = $storages;
+        $this->stack = $stack;
+    }
+
+    public function stack()
+    {
+        return $this->stack;
     }
 
     public function get(array $keys)
     {
         $entries = array();
 
-        foreach ($this->storages as $storage) {
+        foreach ($this->stack as $storage) {
             if (!count($keys)) {
                 break;
             }
@@ -36,14 +41,14 @@ class StorageStack implements Storage
 
     public function put(array $entries)
     {
-        foreach ($this->storages as $storage) {
+        foreach ($this->stack as $storage) {
             $storage->put($entries);
         }
     }
 
     public function delete(array $keys)
     {
-        foreach ($this->storages as $storage) {
+        foreach ($this->stack as $storage) {
             $storage->delete($keys);
         }
     }
