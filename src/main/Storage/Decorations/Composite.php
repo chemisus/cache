@@ -66,4 +66,9 @@ class Composite extends AbstractStorageDecoration
             $decoration->afterDelete($keys);
         }
     }
+
+    public function decorations()
+    {
+        return $this->decorations;
+    }
 }

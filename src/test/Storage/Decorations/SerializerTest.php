@@ -3,10 +3,16 @@
 namespace Chemisus\Storage\Decorations;
 
 use Chemisus\Serialization\JsonSerializer;
-use PHPUnit_Framework_TestCase;
+use Chemisus\Storage\StorageDecorationTest;
 
-class SerializerTest extends PHPUnit_Framework_TestCase
+
+class SerializerTest extends StorageDecorationTest
 {
+    public function factory()
+    {
+        return new Serialize(new JsonSerializer());
+    }
+
     public function testConstruct()
     {
         $serializer = new JsonSerializer();

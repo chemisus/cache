@@ -64,11 +64,13 @@ class TTL extends AbstractStorageDecoration
 
     public function valid($data)
     {
+        $data = ((array)$data);
         return $this->now() < $data[$this->expirationKey];
     }
 
     public function value($data)
     {
+        $data = ((array)$data);
         return $data[$this->valueKey];
     }
 

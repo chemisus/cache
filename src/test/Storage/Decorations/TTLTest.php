@@ -3,11 +3,16 @@
 namespace Chemisus\Storage\Decorations;
 
 use Chemisus\Storage\ArrayStorage;
+use Chemisus\Storage\StorageDecorationTest;
 use Chemisus\Storage\StorageDecorator;
-use PHPUnit_Framework_TestCase;
 
-class TTLTest extends PHPUnit_Framework_TestCase
+class TTLTest extends StorageDecorationTest
 {
+    public function factory()
+    {
+        return new TTL();
+    }
+
     public function testConstruct()
     {
         $ttl = 100;
