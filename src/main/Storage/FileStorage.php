@@ -14,6 +14,11 @@ class FileStorage implements Storage
         $this->directory = $directory;
     }
 
+    public function directory()
+    {
+        return $this->directory;
+    }
+
     public function file($key)
     {
         return $this->directory . '/' . urlencode($key);
@@ -21,11 +26,15 @@ class FileStorage implements Storage
 
     public function files($keys)
     {
+        if (!count($keys)) {
+            return array();
+        }
+
         return array_filter(
-            array_map(
+            array_combine($keys, array_map(
                 array($this, 'file'),
                 $keys
-            ),
+            )),
             'file_exists'
         );
     }

@@ -32,6 +32,7 @@ abstract class StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testStorage(Storage $storage)
     {
+        self::assertEmpty($storage->get(array()), "Should get zero entries when zero keys are provided");
         self::assertEmpty($storage->get($this->keys), "Storage should be empty to begin with.");
         $storage->put($this->entries);
         self::assertNotEmpty($storage->get($this->keys), "Storage should store and return entries.");

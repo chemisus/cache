@@ -8,4 +8,12 @@ class ArrayStorageTest extends StorageTest
     {
         return new ArrayStorage();
     }
+
+    public function testConstruct()
+    {
+        $entries = array('f' => 'F', 'g' => 'G');
+
+        $storage = new ArrayStorage($entries);
+        $this->assertEquals($entries, $storage->entries());
+    }
 }
