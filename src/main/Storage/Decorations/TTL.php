@@ -59,7 +59,7 @@ class TTL extends AbstractStorageDecoration
 
     public function now()
     {
-        return $this->now ?: time();
+        return $this->now !== null ? $this->now : time();
     }
 
     public function valid($data)
