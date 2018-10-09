@@ -2,55 +2,49 @@
 
 namespace Chemisus\Cache;
 
+use Chemisus\Storage\Storage;
+use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
+    private $entries = array('a' => 'A', 'b' => 'B', 'c' => 'C');
+    private $keys = array('a', 'b', 'c');
+    private $presentEntries = array('a' => 'A', 'b' => 'B');
+    private $presentKeys = array('a', 'b');
+    private $missingEntries = array('c' => 'C');
+    private $missingKeys = array('c');
+    private $missingValue = 'C';
+
+    /**
+     * @return Storage|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function storage()
+    {
+        $entries = &$this->presentEntries;
+        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
+        $storage->expects(self::any())->method('get')->will(self::returnCallback(function ($keys) use (&$entries) {
+            return array_intersect_key($entries, array_flip($keys));
+        }));
+        return $storage;
+    }
+
     public function testConstructor()
     {
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
+        $storage = $this->storage();
         $container = new Container($storage);
         self::assertEquals($storage, $container->storage());
     }
 
     public function testMGet()
     {
-        $entries = array('a' => 'A', 'b' => 'B');
-        $keys = array_keys($entries);
-        $expect = $entries;
+        $keys = $this->keys;
+        $expect = $this->presentEntries;
 
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
-
-        $container = new Container($storage);
-
-        $actual = $container->mget($keys);
-        self::assertEquals($expect, $actual);
-    }
-
-    public function testMGetWithMissing()
-    {
-        $entries = array('a' => 'A', 'b' => 'B');
-        $keys = array_merge(array_keys($entries), array('c'));
-        $expect = $entries;
-
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
-
-        $container = new Container($storage);
-
-        $actual = $container->mget($keys);
-        self::assertEquals($expect, $actual);
-    }
-
-    public function testMGetWithEmpty()
-    {
-        $entries = array();
-        $keys = array_keys($entries);
-        $expect = $entries;
-
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
+        $storage = $this->storage();
+        $storage->expects(self::once())
+            ->method('get')
+            ->with($keys);
 
         $container = new Container($storage);
 
@@ -60,45 +54,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testMGetOr()
     {
-        $entries = array('a' => 'A', 'b' => 'B');
-        $keys = array_keys($entries);
-        $default = 5;
-        $expect = $entries;
+        $keys = $this->keys;
+        $expect = $this->entries;
+        $default = $this->missingValue;
 
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
-
-        $container = new Container($storage);
-
-        $actual = $container->mgetOr($keys, $default);
-        self::assertEquals($expect, $actual);
-    }
-
-    public function testMGetOrWithMissing()
-    {
-        $entries = array('a' => 'A', 'b' => 'B');
-        $keys = array_merge(array_keys($entries), array('c'));
-        $default = 5;
-        $expect = array_merge($entries, array('c' => $default));
-
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
-
-        $container = new Container($storage);
-
-        $actual = $container->mgetOr($keys, $default);
-        self::assertEquals($expect, $actual);
-    }
-
-    public function testMGetOrWithEmpty()
-    {
-        $entries = array();
-        $keys = array_keys($entries);
-        $default = 5;
-        $expect = $entries;
-
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
+        $storage = $this->storage();
+        $storage->expects(self::once())
+            ->method('get')
+            ->with($keys);
 
         $container = new Container($storage);
 
@@ -108,54 +71,24 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testMGetOrPut()
     {
-        $entries = array('a' => 'A', 'b' => 'B');
-        $keys = array_keys($entries);
-        $expect = $entries;
+        $keys = $this->keys;
+        $expect = $this->entries;
+        $default = $this->missingValue;
 
-        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
-
-        $callback = function () use ($entries) {
-            return $entries;
-        };
+        $storage = $this->storage();
+        $storage->expects(self::once())
+            ->method('get')
+            ->with($keys);
+        $storage->expects(self::once())
+            ->method('put')
+            ->with($this->missingEntries);
 
         $container = new Container($storage);
 
-        $actual = $container->mgetOrPut($keys, $callback);
+        $actual = $container->mgetOrPut($keys, function ($keys) use ($default) {
+            return array_fill_keys($keys, $default);
+        });
+
         self::assertEquals($expect, $actual);
     }
-
-//    public function testMGetOrPutWithMissing()
-//    {
-//        $entries = array('a' => 'A', 'b' => 'B');
-//        $keys = array_merge(array_keys($entries), array('c'));
-//        $default = 5;
-//        $expect = array_merge($entries, array('c' => $default));
-//
-//        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-//        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries))
-//
-//        $container = new Container($storage);
-//
-//        $actual = $container->mgetOrPut($keys, $default);
-//        self::assertEquals($expect, $actual);
-//    }
-//
-//    public function testMGetOrPutWithEmpty()
-//    {
-//        $entries = array();
-//        $keys = array_keys($entries);
-//        $default = 5;
-//        $expect = $entries;
-//
-//        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-//        $callback = self::callback(function () {
-//        });
-//        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries))
-//
-//        $container = new Container($storage);
-//
-//        $actual = $container->mgetOrPut($keys, $callback);
-//        self::assertEquals($expect, $actual);
-//    }
 }
