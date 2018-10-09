@@ -20,7 +20,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -35,7 +35,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -50,7 +50,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -66,7 +66,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -82,7 +82,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = array_merge($entries, array('c' => $default));
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -98,7 +98,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $container = new Container($storage);
 
@@ -113,7 +113,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $expect = $entries;
 
         $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries));
 
         $callback = function () use ($entries) {
             return $entries;
@@ -133,7 +133,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 //        $expect = array_merge($entries, array('c' => $default));
 //
 //        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
-//        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+//        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries))
 //
 //        $container = new Container($storage);
 //
@@ -151,7 +151,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 //        $storage = self::getMockBuilder('Chemisus\\Storage\\Storage')->getMock();
 //        $callback = self::callback(function () {
 //        });
-//        $storage->expects(self::once())->method('get')->with($keys)->willReturn($entries);
+//        $storage->expects(self::once())->method('get')->with($keys)->will(self::returnValue($entries))
 //
 //        $container = new Container($storage);
 //
