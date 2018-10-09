@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit
     backupGlobals               = "false"
     backupStaticAttributes      = "false"
@@ -14,13 +12,22 @@
 
     <testsuites>
         <testsuite name="unit">
-            <directory>src</directory>
+            <directory>src/test/unit</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>src/test/integration</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>src/test/functional</directory>
+        </testsuite>
+        <testsuite name="acceptance">
+            <directory>src/test/acceptance</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>src</directory>
+            <directory>src/main</directory>
             <exclude>
                 <directory>vendor</directory>
                 <directory>src/test</directory>

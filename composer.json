@@ -1,24 +1,29 @@
 {
-    "name": "chemisus/cache",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Terrence Howard",
-            "email": "chemisus@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Chemisus\\": "src/main"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Chemisus\\": "src/test"
-        }
-    },
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "<6"
+  "name": "chemisus/storage",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Terrence Howard",
+      "email": "chemisus@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Chemisus\\": "src/main"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Chemisus\\": [
+        "src/test/unit",
+        "src/test/integration",
+        "src/test/functional",
+        "src/test/acceptance"
+      ]
+    }
+  },
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "<6"
+  }
 }
