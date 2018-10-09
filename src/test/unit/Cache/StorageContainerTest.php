@@ -370,4 +370,18 @@ class StorageContainerTest extends PHPUnit_Framework_TestCase
         $actual = $container->getOrPut($key, $factory);
         self::assertEquals($expect, $actual);
     }
+
+    public function testDelete()
+    {
+        $key = $this->missingKey;
+
+        $storage = $this->storage();
+        $storage->expects(self::once())
+            ->method('delete')
+            ->with($this->missingKeys);
+
+        $container = new StorageContainer($storage);
+
+        $container->delete($key);
+    }
 }
