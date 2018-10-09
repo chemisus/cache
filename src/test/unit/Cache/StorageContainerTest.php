@@ -342,6 +342,7 @@ class StorageContainerTest extends PHPUnit_Framework_TestCase
         $container = new StorageContainer($storage);
 
         $actual = $container->getOrPut($key, $factory);
+        self::assertFalse($called);
         self::assertEquals($expect, $actual);
     }
 
@@ -368,6 +369,7 @@ class StorageContainerTest extends PHPUnit_Framework_TestCase
         $container = new StorageContainer($storage);
 
         $actual = $container->getOrPut($key, $factory);
+        self::assertTrue($called);
         self::assertEquals($expect, $actual);
     }
 
